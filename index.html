@@ -12,7 +12,6 @@ body {
   background: #f7f8fa;
 }
 
-/* INTRO PREMIUM */
 #intro {
   position: fixed;
   inset: 0;
@@ -25,80 +24,65 @@ body {
   perspective: 1200px;
 }
 
-/* HALO DORÉ */
 #intro::before {
   content: "";
   position: absolute;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(212,175,55,0.25), transparent 70%);
-  animation: glow 3s infinite alternate;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(212,175,55,0.18), transparent 70%);
+  animation: glowBg 3s infinite alternate;
 }
 
-/* LOGO */
+.logo-wrap {
+  position: relative;
+  width: 500px;
+  max-width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#sm-trace {
+  width: 100%;
+  height: auto;
+  position: relative;
+  z-index: 3;
+}
+
+.trace-path {
+  fill: none;
+  stroke: #f3d26a;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 6px rgba(212,175,55,0.8))
+          drop-shadow(0 0 18px rgba(212,175,55,0.75))
+          drop-shadow(0 0 35px rgba(212,175,55,0.45));
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  animation: drawLine 2.2s ease forwards;
+}
+
+.trace-path.second {
+  animation-delay: 0.25s;
+}
+
 #logo {
   width: 420px;
   max-width: 90%;
-  position: relative;
+  position: absolute;
   z-index: 2;
-  filter: drop-shadow(0 0 30px rgba(212,175,55,0.6));
-  transform-origin: center;
-  animation: zoomIn 2s cubic-bezier(.17,.67,.2,1) forwards, pulse 4s 2s infinite;
+  opacity: 0;
+  transform: scale(0.82);
+  filter: blur(10px) drop-shadow(0 0 10px rgba(212,175,55,0.2));
+  animation: revealLogo 1s ease forwards;
+  animation-delay: 2.1s;
 }
 
-@keyframes zoomIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.5) translateZ(-200px);
-    filter: blur(10px) drop-shadow(0 0 10px rgba(212,175,55,0.3));
-  }
-  60% {
-    opacity: 1;
-    transform: scale(1.12) translateZ(0);
-    filter: blur(0) drop-shadow(0 0 40px rgba(212,175,55,0.75));
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-    filter: blur(0) drop-shadow(0 0 30px rgba(212,175,55,0.6));
-  }
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.03);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* LUMIÈRE */
-@keyframes glow {
-  from {
-    opacity: 0.3;
-  }
-  to {
-    opacity: 0.7;
-  }
-}
-
-/* DISPARITION */
 .fadeOut {
   animation: fadeOut 1s forwards;
 }
 
-@keyframes fadeOut {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-
-/* HERO CLAIR */
 .hero {
   min-height: 100vh;
   display: flex;
@@ -109,13 +93,7 @@ body {
   padding: 120px 20px;
   opacity: 0;
   animation: show 1s ease forwards;
-  animation-delay: 2.2s;
-}
-
-@keyframes show {
-  to {
-    opacity: 1;
-  }
+  animation-delay: 3.1s;
 }
 
 h1 {
@@ -144,7 +122,62 @@ p {
   background: #c39a1d;
 }
 
-/* RESPONSIVE */
+@keyframes drawLine {
+  0% {
+    stroke-dashoffset: 1200;
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes revealLogo {
+  0% {
+    opacity: 0;
+    transform: scale(0.82);
+    filter: blur(10px) drop-shadow(0 0 10px rgba(212,175,55,0.2));
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05);
+    filter: blur(0) drop-shadow(0 0 40px rgba(212,175,55,0.65));
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0) drop-shadow(0 0 28px rgba(212,175,55,0.55));
+  }
+}
+
+@keyframes glowBg {
+  from {
+    opacity: 0.35;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 0.75;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes show {
+  to {
+    opacity: 1;
+  }
+}
+
 @media (max-width: 768px) {
   #logo {
     width: 300px;
@@ -157,6 +190,10 @@ p {
   p {
     font-size: 16px;
   }
+
+  .trace-path {
+    stroke-width: 6;
+  }
 }
 </style>
 </head>
@@ -164,7 +201,22 @@ p {
 <body>
 
 <div id="intro">
-  <img id="logo" src="logo.png" alt="SM Concept">
+  <div class="logo-wrap">
+
+    <svg id="sm-trace" viewBox="0 0 500 260" xmlns="http://www.w3.org/2000/svg" aria-label="Tracé SM">
+      <path class="trace-path" d="M120 70
+                                   C70 70, 60 140, 120 145
+                                   C180 150, 180 210, 115 210
+                                   C75 210, 50 190, 40 170" />
+      <path class="trace-path second" d="M210 205
+                                          L210 75
+                                          L270 165
+                                          L330 75
+                                          L330 205" />
+    </svg>
+
+    <img id="logo" src="logo.png" alt="SM Concept">
+  </div>
 </div>
 
 <div class="hero">
@@ -178,7 +230,7 @@ p {
 <script>
 setTimeout(() => {
   document.getElementById("intro").classList.add("fadeOut");
-}, 2000);
+}, 3100);
 </script>
 
 </body>
