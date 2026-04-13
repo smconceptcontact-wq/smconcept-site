@@ -22,6 +22,80 @@
     overflow-x: hidden;
   }
 
+  /* =========================================================
+     MODE REPÉRAGE VISUEL TEMPORAIRE
+     À retirer plus tard si tu veux un rendu 100% final
+  ========================================================= */
+
+  .dev-section {
+    position: relative;
+    border-top: 3px solid rgba(255,255,255,0.08);
+  }
+
+  .dev-label {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 20;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.22);
+    pointer-events: none;
+  }
+
+  .label-intro {
+    background: #c89b1d;
+  }
+
+  .label-hero {
+    background: #1e88e5;
+  }
+
+  .label-about {
+    background: #00a86b;
+  }
+
+  .label-beforeafter {
+    background: #e67e22;
+  }
+
+  .label-gallery {
+    background: #8e44ad;
+  }
+
+  .label-contact {
+    background: #e74c3c;
+  }
+
+  .dev-outline-blue {
+    box-shadow: inset 0 0 0 2px rgba(30,136,229,0.22);
+  }
+
+  .dev-outline-green {
+    box-shadow: inset 0 0 0 2px rgba(0,168,107,0.22);
+  }
+
+  .dev-outline-orange {
+    box-shadow: inset 0 0 0 2px rgba(230,126,34,0.22);
+  }
+
+  .dev-outline-purple {
+    box-shadow: inset 0 0 0 2px rgba(142,68,173,0.22);
+  }
+
+  .dev-outline-red {
+    box-shadow: inset 0 0 0 2px rgba(231,76,60,0.22);
+  }
+
+  /* =========================================================
+     INTRO
+  ========================================================= */
+
   #intro {
     position: fixed;
     inset: 0;
@@ -56,6 +130,10 @@
       visibility: hidden;
     }
   }
+
+  /* =========================================================
+     HERO
+  ========================================================= */
 
   .hero {
     min-height: 88vh;
@@ -142,6 +220,10 @@
     background: rgba(255,255,255,0.10);
   }
 
+  /* =========================================================
+     STRUCTURE GÉNÉRALE
+  ========================================================= */
+
   .section {
     max-width: 1180px;
     margin: 0 auto;
@@ -162,6 +244,10 @@
     line-height: 1.8;
     font-size: 17px;
   }
+
+  /* =========================================================
+     ENTREPRISE
+  ========================================================= */
 
   .about-box {
     max-width: 920px;
@@ -203,6 +289,10 @@
     color: #c3cedb;
     line-height: 1.7;
   }
+
+  /* =========================================================
+     AVANT / APRÈS
+  ========================================================= */
 
   .before-after-wrap {
     max-width: 980px;
@@ -302,6 +392,10 @@
     right: 16px;
   }
 
+  /* =========================================================
+     GALERIE
+  ========================================================= */
+
   .gallery-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -319,6 +413,10 @@
     color: #8ea0b7;
     font-size: 15px;
   }
+
+  /* =========================================================
+     CONTACT
+  ========================================================= */
 
   .contact-box {
     max-width: 780px;
@@ -381,16 +479,23 @@
       height: 46px;
       font-size: 18px;
     }
+
+    .dev-label {
+      font-size: 11px;
+      padding: 7px 12px;
+    }
   }
 </style>
 </head>
 <body>
 
 <div id="intro">
+  <div class="dev-label label-intro">Intro / Logo</div>
   <img id="logo" src="logo.png" alt="SM Concept">
 </div>
 
-<section class="hero">
+<section class="hero dev-section dev-outline-blue">
+  <div class="dev-label label-hero">Hero / Accueil</div>
   <div class="hero-inner">
     <div class="eyebrow">SM Concept Sur Mesure</div>
     <h1>Rénovation & aménagement<br>avec élégance et exigence</h1>
@@ -405,7 +510,8 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section dev-section dev-outline-green">
+  <div class="dev-label label-about">Entreprise / Présentation</div>
   <h2 class="section-title">L’entreprise</h2>
   <p class="section-subtitle">
     Avant chaque réalisation, il y a une écoute, une vision et une exigence. Nous accompagnons chaque projet
@@ -433,7 +539,8 @@
   </div>
 </section>
 
-<section class="section" id="avant-apres">
+<section class="section dev-section dev-outline-orange" id="avant-apres">
+  <div class="dev-label label-beforeafter">Avant / Après</div>
   <h2 class="section-title">Avant / Après</h2>
   <p class="section-subtitle">
     Faites glisser le curseur pour comparer l’existant et le résultat final. C’est ici que l’on voit réellement
@@ -458,7 +565,8 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section dev-section dev-outline-purple">
+  <div class="dev-label label-gallery">Galerie</div>
   <h2 class="section-title">Galerie</h2>
   <p class="section-subtitle">
     Une sélection de réalisations pour illustrer notre univers, notre exigence et la diversité des projets traités.
@@ -471,7 +579,8 @@
   </div>
 </section>
 
-<section class="section" id="contact">
+<section class="section dev-section dev-outline-red" id="contact">
+  <div class="dev-label label-contact">Contact</div>
   <h2 class="section-title">Contact</h2>
   <div class="contact-box">
     <p>
