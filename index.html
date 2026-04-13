@@ -1,336 +1,513 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SM Concept Sur Mesure</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SM Concept Sur Mesure</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+  * {
+    box-sizing: border-box;
+  }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f7f8fa;
-      overflow-x: hidden;
-    }
+  html {
+    scroll-behavior: smooth;
+  }
 
-    #intro {
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at center, #07172c 0%, #020c1b 100%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      overflow: hidden;
-    }
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #020c1b;
+    color: #ffffff;
+    overflow-x: hidden;
+  }
 
-    #intro::before {
-      content: "";
-      position: absolute;
-      width: 700px;
-      height: 700px;
-      background: radial-gradient(circle, rgba(212,175,55,0.12), transparent 70%);
-      animation: haloGlow 3s infinite alternate;
-    }
+  #intro {
+    position: fixed;
+    inset: 0;
+    background: #020c1b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
 
-    .intro-center {
-      position: relative;
-      width: 100%;
-      max-width: 700px;
-      height: 700px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  #logo {
+    width: 500px;
+    max-width: 95%;
+    filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.5));
+    opacity: 0;
+    transform: scale(0.9);
+    animation: logoAnim 1.5s ease forwards;
+  }
 
-    /* Zone du SM extraite visuellement depuis logo.png */
-    .sm-stage {
-      position: absolute;
-      width: 280px;
-      height: 260px;
-      top: 120px;
-      left: 50%;
-      transform: translateX(-50%);
-      overflow: hidden;
-      z-index: 3;
-    }
+  @keyframes logoAnim {
+    0% { opacity: 0; transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1); }
+  }
 
-    .sm-base {
-      position: absolute;
-      inset: 0;
-      opacity: 0.08;
-      filter: blur(1px);
-    }
+  .fadeOut {
+    animation: fadeOut 1s forwards;
+  }
 
-    .sm-reveal {
-      position: absolute;
-      inset: 0;
-      width: 0%;
-      overflow: hidden;
-      animation: revealSM 1.8s ease forwards;
-      animation-delay: 0.15s;
-    }
-
-    .sm-image {
-      position: absolute;
-      width: 512px;
-      height: 1024px;
-      left: -100px;
-      top: -250px;
-      object-fit: none;
-      user-select: none;
-      pointer-events: none;
-    }
-
-    .light-trace {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 14px;
-      height: 100%;
-      background:
-        linear-gradient(
-          to right,
-          rgba(255,255,255,0) 0%,
-          rgba(255,245,210,0.55) 35%,
-          rgba(212,175,55,1) 50%,
-          rgba(255,245,210,0.55) 65%,
-          rgba(255,255,255,0) 100%
-        );
-      box-shadow:
-        0 0 8px rgba(212,175,55,0.9),
-        0 0 22px rgba(212,175,55,0.7),
-        0 0 42px rgba(212,175,55,0.45);
-      filter: blur(0.3px);
-      animation: traceMove 1.8s ease forwards;
-      animation-delay: 0.15s;
-      z-index: 4;
+  @keyframes fadeOut {
+    to {
       opacity: 0;
+      visibility: hidden;
     }
+  }
 
-    .sm-glow {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      animation: smGlowIn 0.8s ease forwards;
-      animation-delay: 1.6s;
-      z-index: 2;
-      border-radius: 8px;
-      box-shadow:
-        0 0 18px rgba(212,175,55,0.18),
-        0 0 42px rgba(212,175,55,0.12);
+  .hero {
+    min-height: 88vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 140px 20px 80px;
+    background:
+      linear-gradient(rgba(2,12,27,0.72), rgba(2,12,27,0.88)),
+      radial-gradient(circle at top, rgba(212,175,55,0.10), transparent 35%);
+  }
+
+  .hero-inner {
+    max-width: 900px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: content 1s ease forwards;
+    animation-delay: 2.2s;
+  }
+
+  @keyframes content {
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
+  }
 
-    /* Logo complet ensuite */
-    #fullLogo {
-      position: absolute;
-      width: 330px;
-      max-width: 72vw;
-      opacity: 0;
-      transform: scale(0.88);
-      filter: blur(10px) drop-shadow(0 0 10px rgba(212,175,55,0.2));
-      z-index: 5;
-      animation: showFullLogo 1.05s ease forwards;
-      animation-delay: 1.95s;
-      user-select: none;
-      pointer-events: none;
-    }
+  .eyebrow {
+    color: #d4af37;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 12px;
+    margin-bottom: 18px;
+  }
 
-    .fadeOut {
-      animation: fadeOut 1s forwards;
-    }
+  h1 {
+    margin: 0;
+    font-size: 52px;
+    line-height: 1.1;
+    letter-spacing: 1px;
+  }
 
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 120px 20px;
-      background: linear-gradient(180deg, #ffffff 0%, #eef2f7 100%);
-      opacity: 0;
-      animation: heroShow 1s ease forwards;
-      animation-delay: 3.2s;
-    }
+  .hero p {
+    max-width: 680px;
+    margin: 24px auto 34px;
+    color: #d7dee8;
+    font-size: 18px;
+    line-height: 1.7;
+  }
 
+  .hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 14px 24px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s ease;
+  }
+
+  .btn-primary {
+    background: #d4af37;
+    color: #020c1b;
+  }
+
+  .btn-primary:hover {
+    background: #f2d376;
+  }
+
+  .btn-secondary {
+    border: 1px solid rgba(255,255,255,0.22);
+    color: #ffffff;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.10);
+  }
+
+  .section {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 90px 20px;
+  }
+
+  .section-title {
+    text-align: center;
+    margin-bottom: 18px;
+    font-size: 36px;
+  }
+
+  .section-subtitle {
+    max-width: 760px;
+    margin: 0 auto 48px;
+    text-align: center;
+    color: #c3cedb;
+    line-height: 1.8;
+    font-size: 17px;
+  }
+
+  .about-box {
+    max-width: 920px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 38px 30px;
+    text-align: center;
+    color: #d7dee8;
+    line-height: 1.8;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+
+  .signature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 42px;
+  }
+
+  .signature-card {
+    background: #08192f;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 22px;
+    padding: 28px 24px;
+    text-align: left;
+  }
+
+  .signature-card h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: #ffffff;
+    font-size: 20px;
+  }
+
+  .signature-card p {
+    margin: 0;
+    color: #c3cedb;
+    line-height: 1.7;
+  }
+
+  .before-after-wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    background: #08192f;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 28px;
+    padding: 26px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.28);
+  }
+
+  .before-after {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #0e223f;
+  }
+
+  .before-after img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .after-img-wrapper {
+    position: absolute;
+    inset: 0;
+    width: 50%;
+    overflow: hidden;
+  }
+
+  .slider-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: rgba(255,255,255,0.85);
+    transform: translateX(-50%);
+    z-index: 3;
+  }
+
+  .slider-handle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 54px;
+    height: 54px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: #ffffff;
+    color: #020c1b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    z-index: 4;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  }
+
+  .slider-range {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: ew-resize;
+    z-index: 5;
+  }
+
+  .ba-label {
+    position: absolute;
+    top: 16px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(2,12,27,0.65);
+    border: 1px solid rgba(255,255,255,0.16);
+    backdrop-filter: blur(5px);
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+
+  .label-before {
+    left: 16px;
+  }
+
+  .label-after {
+    right: 16px;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+
+  .gallery-item {
+    height: 260px;
+    border-radius: 20px;
+    background: #08192f;
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8ea0b7;
+    font-size: 15px;
+  }
+
+  .contact-box {
+    max-width: 780px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, rgba(212,175,55,0.10), rgba(255,255,255,0.03));
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 38px 24px;
+    text-align: center;
+  }
+
+  .contact-box p {
+    color: #d7dee8;
+    line-height: 1.8;
+    margin-bottom: 28px;
+  }
+
+  footer {
+    text-align: center;
+    padding: 40px 20px 55px;
+    color: #8ea0b7;
+    font-size: 14px;
+  }
+
+  @media (max-width: 900px) {
     h1 {
-      font-size: 48px;
-      color: #111;
-      margin: 0;
+      font-size: 40px;
     }
 
-    p {
-      max-width: 600px;
-      margin: 20px auto;
-      color: #555;
+    .signature-grid,
+    .gallery-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section {
+      padding: 70px 18px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    h1 {
+      font-size: 32px;
+    }
+
+    .hero p,
+    .section-subtitle,
+    .about-box,
+    .signature-card p,
+    .contact-box p {
+      font-size: 15px;
+    }
+
+    .before-after-wrap {
+      padding: 14px;
+      border-radius: 20px;
+    }
+
+    .slider-handle {
+      width: 46px;
+      height: 46px;
       font-size: 18px;
     }
-
-    .btn {
-      background: #d4af37;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 30px;
-      text-decoration: none;
-      display: inline-block;
-      margin-top: 20px;
-      transition: 0.3s;
-    }
-
-    .btn:hover {
-      background: #c39a1d;
-    }
-
-    @keyframes revealSM {
-      0% {
-        width: 0%;
-      }
-      100% {
-        width: 100%;
-      }
-    }
-
-    @keyframes traceMove {
-      0% {
-        left: -18px;
-        opacity: 0;
-      }
-      8% {
-        opacity: 1;
-      }
-      90% {
-        opacity: 1;
-      }
-      100% {
-        left: calc(100% - 8px);
-        opacity: 0;
-      }
-    }
-
-    @keyframes smGlowIn {
-      0% {
-        opacity: 0;
-        transform: scale(0.98);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    @keyframes showFullLogo {
-      0% {
-        opacity: 0;
-        transform: scale(0.88);
-        filter: blur(10px) drop-shadow(0 0 10px rgba(212,175,55,0.2));
-      }
-      60% {
-        opacity: 1;
-        transform: scale(1.04);
-        filter: blur(0) drop-shadow(0 0 40px rgba(212,175,55,0.55));
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
-        filter: blur(0) drop-shadow(0 0 26px rgba(212,175,55,0.45));
-      }
-    }
-
-    @keyframes haloGlow {
-      from {
-        opacity: 0.3;
-        transform: scale(0.95);
-      }
-      to {
-        opacity: 0.75;
-        transform: scale(1.05);
-      }
-    }
-
-    @keyframes fadeOut {
-      to {
-        opacity: 0;
-        visibility: hidden;
-      }
-    }
-
-    @keyframes heroShow {
-      to {
-        opacity: 1;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .intro-center {
-        height: 560px;
-      }
-
-      .sm-stage {
-        width: 220px;
-        height: 205px;
-        top: 110px;
-      }
-
-      .sm-image {
-        width: 402px;
-        height: 804px;
-        left: -78px;
-        top: -196px;
-      }
-
-      #fullLogo {
-        width: 260px;
-      }
-
-      h1 {
-        font-size: 34px;
-      }
-
-      p {
-        font-size: 16px;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
 
-  <div id="intro">
-    <div class="intro-center">
+<div id="intro">
+  <img id="logo" src="logo.png" alt="SM Concept">
+</div>
 
-      <div class="sm-stage">
-        <div class="sm-base">
-          <img src="logo.png" alt="SM" class="sm-image">
-        </div>
-
-        <div class="sm-reveal">
-          <img src="logo.png" alt="SM" class="sm-image">
-        </div>
-
-        <div class="light-trace"></div>
-        <div class="sm-glow"></div>
-      </div>
-
-      <img id="fullLogo" src="logo.png" alt="SM Concept Sur Mesure">
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">SM Concept Sur Mesure</div>
+    <h1>Rénovation & aménagement<br>avec élégance et exigence</h1>
+    <p>
+      Nous concevons des réalisations soignées, pensées dans les moindres détails,
+      pour transformer vos espaces avec caractère, équilibre et qualité de finition.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn btn-primary">Demander un devis</a>
+      <a href="#avant-apres" class="btn btn-secondary">Voir nos réalisations</a>
     </div>
   </div>
+</section>
 
-  <section class="hero">
-    <div>
-      <h1>L’excellence du sur-mesure</h1>
-      <p>Des réalisations haut de gamme pensées dans les moindres détails.</p>
-      <a href="#" class="btn">Demander un devis</a>
+<section class="section">
+  <h2 class="section-title">L’entreprise</h2>
+  <p class="section-subtitle">
+    Avant chaque réalisation, il y a une écoute, une vision et une exigence. Nous accompagnons chaque projet
+    avec sérieux, méthode et sens du détail pour proposer un résultat à la fois esthétique, durable et cohérent.
+  </p>
+  <div class="about-box">
+    SM Concept Sur Mesure vous accompagne dans vos projets de rénovation et d’aménagement avec une approche fondée
+    sur la précision, la qualité des finitions et l’adaptation à vos besoins. Notre ambition est simple : créer des
+    espaces qui vous ressemblent, avec une vraie cohérence visuelle et une exécution soignée.
+  </div>
+
+  <div class="signature-grid">
+    <div class="signature-card">
+      <h3>Exigence</h3>
+      <p>Une attention particulière portée aux détails, aux matières et à la qualité de finition à chaque étape.</p>
     </div>
-  </section>
+    <div class="signature-card">
+      <h3>Sur mesure</h3>
+      <p>Chaque projet est pensé selon votre espace, vos contraintes et votre manière de vivre ou d’utiliser le lieu.</p>
+    </div>
+    <div class="signature-card">
+      <h3>Suivi</h3>
+      <p>Un accompagnement clair, sérieux et structuré du premier échange jusqu’à la finalisation du chantier.</p>
+    </div>
+  </div>
+</section>
 
-  <script>
-    setTimeout(() => {
-      document.getElementById("intro").classList.add("fadeOut");
-    }, 3200);
-  </script>
+<section class="section" id="avant-apres">
+  <h2 class="section-title">Avant / Après</h2>
+  <p class="section-subtitle">
+    Faites glisser le curseur pour comparer l’existant et le résultat final. C’est ici que l’on voit réellement
+    la transformation d’un espace.
+  </p>
+
+  <div class="before-after-wrap">
+    <div class="before-after">
+      <img src="avant1.jpg" alt="Avant travaux">
+      <div class="after-img-wrapper" id="afterWrapper">
+        <img src="apres1.jpg" alt="Après travaux">
+      </div>
+
+      <div class="ba-label label-before">Avant</div>
+      <div class="ba-label label-after">Après</div>
+
+      <div class="slider-line" id="sliderLine"></div>
+      <div class="slider-handle" id="sliderHandle">↔</div>
+
+      <input type="range" min="0" max="100" value="50" class="slider-range" id="sliderRange" aria-label="Comparer avant après">
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">Galerie</h2>
+  <p class="section-subtitle">
+    Une sélection de réalisations pour illustrer notre univers, notre exigence et la diversité des projets traités.
+  </p>
+
+  <div class="gallery-grid">
+    <div class="gallery-item">Projet 1</div>
+    <div class="gallery-item">Projet 2</div>
+    <div class="gallery-item">Projet 3</div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <h2 class="section-title">Contact</h2>
+  <div class="contact-box">
+    <p>
+      Vous avez un projet de rénovation ou d’aménagement ? Contactez-nous pour échanger sur vos besoins
+      et obtenir un premier retour rapide.
+    </p>
+    <a href="#" class="btn btn-primary">Nous contacter</a>
+  </div>
+</section>
+
+<footer>
+  © SM Concept Sur Mesure
+</footer>
+
+<script>
+  setTimeout(() => {
+    document.getElementById("intro").classList.add("fadeOut");
+  }, 2200);
+
+  const slider = document.getElementById("sliderRange");
+  const afterWrapper = document.getElementById("afterWrapper");
+  const sliderLine = document.getElementById("sliderLine");
+  const sliderHandle = document.getElementById("sliderHandle");
+
+  function updateSlider(value) {
+    afterWrapper.style.width = value + "%";
+    sliderLine.style.left = value + "%";
+    sliderHandle.style.left = value + "%";
+  }
+
+  slider.addEventListener("input", (e) => {
+    updateSlider(e.target.value);
+  });
+
+  updateSlider(50);
+</script>
 
 </body>
 </html>
