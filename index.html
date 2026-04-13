@@ -7,58 +7,83 @@
 
 <style>
 body {
-  margin:0;
+  margin: 0;
   font-family: Arial, sans-serif;
-  background:#f7f8fa;
+  background: #f7f8fa;
 }
 
 /* INTRO PREMIUM */
 #intro {
-  position:fixed;
-  inset:0;
+  position: fixed;
+  inset: 0;
   background: radial-gradient(circle at center, #07172c 0%, #020c1b 100%);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-  overflow:hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  overflow: hidden;
+  perspective: 1200px;
 }
 
 /* HALO DORÉ */
 #intro::before {
-  content:"";
-  position:absolute;
-  width:600px;
-  height:600px;
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
   background: radial-gradient(circle, rgba(212,175,55,0.25), transparent 70%);
   animation: glow 3s infinite alternate;
 }
 
 /* LOGO */
 #logo {
-  width:420px;
-  max-width:90%;
-  position:relative;
-  z-index:2;
+  width: 420px;
+  max-width: 90%;
+  position: relative;
+  z-index: 2;
   filter: drop-shadow(0 0 30px rgba(212,175,55,0.6));
-  animation: logoAnim 2s ease forwards, pulse 4s infinite;
+  transform-origin: center;
+  animation: zoomIn 2s cubic-bezier(.17,.67,.2,1) forwards, pulse 4s 2s infinite;
 }
 
-@keyframes logoAnim {
-  0% {opacity:0; transform:scale(0.85);}
-  100% {opacity:1; transform:scale(1);}
+@keyframes zoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) translateZ(-200px);
+    filter: blur(10px) drop-shadow(0 0 10px rgba(212,175,55,0.3));
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.12) translateZ(0);
+    filter: blur(0) drop-shadow(0 0 40px rgba(212,175,55,0.75));
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0) drop-shadow(0 0 30px rgba(212,175,55,0.6));
+  }
 }
 
 @keyframes pulse {
-  0% {transform:scale(1);}
-  50% {transform:scale(1.03);}
-  100% {transform:scale(1);}
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* LUMIÈRE */
 @keyframes glow {
-  from {opacity:0.3;}
-  to {opacity:0.7;}
+  from {
+    opacity: 0.3;
+  }
+  to {
+    opacity: 0.7;
+  }
 }
 
 /* DISPARITION */
@@ -67,64 +92,81 @@ body {
 }
 
 @keyframes fadeOut {
-  to {opacity:0; visibility:hidden;}
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
 /* HERO CLAIR */
 .hero {
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  background:
-    linear-gradient(180deg, #ffffff 0%, #eef2f7 100%);
-  padding:120px 20px;
-  opacity:0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(180deg, #ffffff 0%, #eef2f7 100%);
+  padding: 120px 20px;
+  opacity: 0;
   animation: show 1s ease forwards;
-  animation-delay:2.2s;
+  animation-delay: 2.2s;
 }
 
 @keyframes show {
-  to {opacity:1;}
+  to {
+    opacity: 1;
+  }
 }
 
 h1 {
-  font-size:48px;
-  color:#111;
+  font-size: 48px;
+  color: #111;
 }
 
 p {
-  max-width:600px;
-  margin:20px auto;
-  color:#555;
+  max-width: 600px;
+  margin: 20px auto;
+  color: #555;
 }
 
 .btn {
-  background:#d4af37;
-  color:white;
-  padding:12px 24px;
-  border-radius:30px;
-  text-decoration:none;
-  display:inline-block;
-  margin-top:20px;
-  transition:0.3s;
+  background: #d4af37;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 30px;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 20px;
+  transition: 0.3s;
 }
 
 .btn:hover {
-  background:#c39a1d;
+  background: #c39a1d;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  #logo {
+    width: 300px;
+  }
+
+  h1 {
+    font-size: 34px;
+  }
+
+  p {
+    font-size: 16px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- INTRO -->
 <div id="intro">
   <img id="logo" src="logo.png" alt="SM Concept">
 </div>
 
-<!-- HERO -->
 <div class="hero">
   <div>
     <h1>L’excellence du sur-mesure</h1>
@@ -134,9 +176,9 @@ p {
 </div>
 
 <script>
-setTimeout(()=>{
+setTimeout(() => {
   document.getElementById("intro").classList.add("fadeOut");
-},2000);
+}, 2000);
 </script>
 
 </body>
