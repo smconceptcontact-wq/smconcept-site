@@ -1,237 +1,336 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SM Concept Sur Mesure</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SM Concept Sur Mesure</title>
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f7f8fa;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-#intro {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at center, #07172c 0%, #020c1b 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  overflow: hidden;
-  perspective: 1200px;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f8fa;
+      overflow-x: hidden;
+    }
 
-#intro::before {
-  content: "";
-  position: absolute;
-  width: 700px;
-  height: 700px;
-  background: radial-gradient(circle, rgba(212,175,55,0.18), transparent 70%);
-  animation: glowBg 3s infinite alternate;
-}
+    #intro {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, #07172c 0%, #020c1b 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      overflow: hidden;
+    }
 
-.logo-wrap {
-  position: relative;
-  width: 500px;
-  max-width: 90%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+    #intro::before {
+      content: "";
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(212,175,55,0.12), transparent 70%);
+      animation: haloGlow 3s infinite alternate;
+    }
 
-#sm-trace {
-  width: 100%;
-  height: auto;
-  position: relative;
-  z-index: 3;
-}
+    .intro-center {
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      height: 700px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-.trace-path {
-  fill: none;
-  stroke: #f3d26a;
-  stroke-width: 8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 0 6px rgba(212,175,55,0.8))
-          drop-shadow(0 0 18px rgba(212,175,55,0.75))
-          drop-shadow(0 0 35px rgba(212,175,55,0.45));
-  stroke-dasharray: 1200;
-  stroke-dashoffset: 1200;
-  animation: drawLine 2.2s ease forwards;
-}
+    /* Zone du SM extraite visuellement depuis logo.png */
+    .sm-stage {
+      position: absolute;
+      width: 280px;
+      height: 260px;
+      top: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      overflow: hidden;
+      z-index: 3;
+    }
 
-.trace-path.second {
-  animation-delay: 0.25s;
-}
+    .sm-base {
+      position: absolute;
+      inset: 0;
+      opacity: 0.08;
+      filter: blur(1px);
+    }
 
-#logo {
-  width: 420px;
-  max-width: 90%;
-  position: absolute;
-  z-index: 2;
-  opacity: 0;
-  transform: scale(0.82);
-  filter: blur(10px) drop-shadow(0 0 10px rgba(212,175,55,0.2));
-  animation: revealLogo 1s ease forwards;
-  animation-delay: 2.1s;
-}
+    .sm-reveal {
+      position: absolute;
+      inset: 0;
+      width: 0%;
+      overflow: hidden;
+      animation: revealSM 1.8s ease forwards;
+      animation-delay: 0.15s;
+    }
 
-.fadeOut {
-  animation: fadeOut 1s forwards;
-}
+    .sm-image {
+      position: absolute;
+      width: 512px;
+      height: 1024px;
+      left: -100px;
+      top: -250px;
+      object-fit: none;
+      user-select: none;
+      pointer-events: none;
+    }
 
-.hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background: linear-gradient(180deg, #ffffff 0%, #eef2f7 100%);
-  padding: 120px 20px;
-  opacity: 0;
-  animation: show 1s ease forwards;
-  animation-delay: 3.1s;
-}
+    .light-trace {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 14px;
+      height: 100%;
+      background:
+        linear-gradient(
+          to right,
+          rgba(255,255,255,0) 0%,
+          rgba(255,245,210,0.55) 35%,
+          rgba(212,175,55,1) 50%,
+          rgba(255,245,210,0.55) 65%,
+          rgba(255,255,255,0) 100%
+        );
+      box-shadow:
+        0 0 8px rgba(212,175,55,0.9),
+        0 0 22px rgba(212,175,55,0.7),
+        0 0 42px rgba(212,175,55,0.45);
+      filter: blur(0.3px);
+      animation: traceMove 1.8s ease forwards;
+      animation-delay: 0.15s;
+      z-index: 4;
+      opacity: 0;
+    }
 
-h1 {
-  font-size: 48px;
-  color: #111;
-}
+    .sm-glow {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      animation: smGlowIn 0.8s ease forwards;
+      animation-delay: 1.6s;
+      z-index: 2;
+      border-radius: 8px;
+      box-shadow:
+        0 0 18px rgba(212,175,55,0.18),
+        0 0 42px rgba(212,175,55,0.12);
+    }
 
-p {
-  max-width: 600px;
-  margin: 20px auto;
-  color: #555;
-}
+    /* Logo complet ensuite */
+    #fullLogo {
+      position: absolute;
+      width: 330px;
+      max-width: 72vw;
+      opacity: 0;
+      transform: scale(0.88);
+      filter: blur(10px) drop-shadow(0 0 10px rgba(212,175,55,0.2));
+      z-index: 5;
+      animation: showFullLogo 1.05s ease forwards;
+      animation-delay: 1.95s;
+      user-select: none;
+      pointer-events: none;
+    }
 
-.btn {
-  background: #d4af37;
-  color: white;
-  padding: 12px 24px;
-  border-radius: 30px;
-  text-decoration: none;
-  display: inline-block;
-  margin-top: 20px;
-  transition: 0.3s;
-}
+    .fadeOut {
+      animation: fadeOut 1s forwards;
+    }
 
-.btn:hover {
-  background: #c39a1d;
-}
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 20px;
+      background: linear-gradient(180deg, #ffffff 0%, #eef2f7 100%);
+      opacity: 0;
+      animation: heroShow 1s ease forwards;
+      animation-delay: 3.2s;
+    }
 
-@keyframes drawLine {
-  0% {
-    stroke-dashoffset: 1200;
-    opacity: 0.2;
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    stroke-dashoffset: 0;
-    opacity: 1;
-  }
-}
+    h1 {
+      font-size: 48px;
+      color: #111;
+      margin: 0;
+    }
 
-@keyframes revealLogo {
-  0% {
-    opacity: 0;
-    transform: scale(0.82);
-    filter: blur(10px) drop-shadow(0 0 10px rgba(212,175,55,0.2));
-  }
-  60% {
-    opacity: 1;
-    transform: scale(1.05);
-    filter: blur(0) drop-shadow(0 0 40px rgba(212,175,55,0.65));
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-    filter: blur(0) drop-shadow(0 0 28px rgba(212,175,55,0.55));
-  }
-}
+    p {
+      max-width: 600px;
+      margin: 20px auto;
+      color: #555;
+      font-size: 18px;
+    }
 
-@keyframes glowBg {
-  from {
-    opacity: 0.35;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 0.75;
-    transform: scale(1.05);
-  }
-}
+    .btn {
+      background: #d4af37;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 20px;
+      transition: 0.3s;
+    }
 
-@keyframes fadeOut {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
+    .btn:hover {
+      background: #c39a1d;
+    }
 
-@keyframes show {
-  to {
-    opacity: 1;
-  }
-}
+    @keyframes revealSM {
+      0% {
+        width: 0%;
+      }
+      100% {
+        width: 100%;
+      }
+    }
 
-@media (max-width: 768px) {
-  #logo {
-    width: 300px;
-  }
+    @keyframes traceMove {
+      0% {
+        left: -18px;
+        opacity: 0;
+      }
+      8% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        left: calc(100% - 8px);
+        opacity: 0;
+      }
+    }
 
-  h1 {
-    font-size: 34px;
-  }
+    @keyframes smGlowIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.98);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
 
-  p {
-    font-size: 16px;
-  }
+    @keyframes showFullLogo {
+      0% {
+        opacity: 0;
+        transform: scale(0.88);
+        filter: blur(10px) drop-shadow(0 0 10px rgba(212,175,55,0.2));
+      }
+      60% {
+        opacity: 1;
+        transform: scale(1.04);
+        filter: blur(0) drop-shadow(0 0 40px rgba(212,175,55,0.55));
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0) drop-shadow(0 0 26px rgba(212,175,55,0.45));
+      }
+    }
 
-  .trace-path {
-    stroke-width: 6;
-  }
-}
-</style>
+    @keyframes haloGlow {
+      from {
+        opacity: 0.3;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 0.75;
+        transform: scale(1.05);
+      }
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    @keyframes heroShow {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .intro-center {
+        height: 560px;
+      }
+
+      .sm-stage {
+        width: 220px;
+        height: 205px;
+        top: 110px;
+      }
+
+      .sm-image {
+        width: 402px;
+        height: 804px;
+        left: -78px;
+        top: -196px;
+      }
+
+      #fullLogo {
+        width: 260px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div id="intro">
-  <div class="logo-wrap">
+  <div id="intro">
+    <div class="intro-center">
 
-    <svg id="sm-trace" viewBox="0 0 500 260" xmlns="http://www.w3.org/2000/svg" aria-label="Tracé SM">
-      <path class="trace-path" d="M120 70
-                                   C70 70, 60 140, 120 145
-                                   C180 150, 180 210, 115 210
-                                   C75 210, 50 190, 40 170" />
-      <path class="trace-path second" d="M210 205
-                                          L210 75
-                                          L270 165
-                                          L330 75
-                                          L330 205" />
-    </svg>
+      <div class="sm-stage">
+        <div class="sm-base">
+          <img src="logo.png" alt="SM" class="sm-image">
+        </div>
 
-    <img id="logo" src="logo.png" alt="SM Concept">
+        <div class="sm-reveal">
+          <img src="logo.png" alt="SM" class="sm-image">
+        </div>
+
+        <div class="light-trace"></div>
+        <div class="sm-glow"></div>
+      </div>
+
+      <img id="fullLogo" src="logo.png" alt="SM Concept Sur Mesure">
+    </div>
   </div>
-</div>
 
-<div class="hero">
-  <div>
-    <h1>L’excellence du sur-mesure</h1>
-    <p>Des réalisations haut de gamme pensées dans les moindres détails.</p>
-    <a href="#" class="btn">Demander un devis</a>
-  </div>
-</div>
+  <section class="hero">
+    <div>
+      <h1>L’excellence du sur-mesure</h1>
+      <p>Des réalisations haut de gamme pensées dans les moindres détails.</p>
+      <a href="#" class="btn">Demander un devis</a>
+    </div>
+  </section>
 
-<script>
-setTimeout(() => {
-  document.getElementById("intro").classList.add("fadeOut");
-}, 3100);
-</script>
+  <script>
+    setTimeout(() => {
+      document.getElementById("intro").classList.add("fadeOut");
+    }, 3200);
+  </script>
 
 </body>
 </html>
